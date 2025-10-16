@@ -44,6 +44,7 @@ export default function PostEditor({ postId, onSave, onCancel }: PostEditorProps
     categoryIds: [],
   });
   const [selectedCategories, setSelectedCategories] = useState<{ id: number; name: string }[]>([]);
+  const [categorySelectValue, setCategorySelectValue] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch existing post if editing
@@ -133,11 +134,14 @@ export default function PostEditor({ postId, onSave, onCancel }: PostEditorProps
   // Handle category selection
   const handleCategoryChange = (categoryId: string) => {
     const id = parseInt(categoryId);
-    const category = categories.find(c => c.id === id);
-    
-    if (category && !selectedCategories.find(c => c.id === id)) {
+    const category = categories.find((c) => c.id === id);
+
+    if (category && !selectedCategories.find((c) => c.id === id)) {
       setSelectedCategories([...selectedCategories, category]);
     }
+
+    // Reset the select trigger to show placeholder again
+    setCategorySelectValue(undefined);
   };
 
   // Remove category
@@ -308,24 +312,26 @@ export default function PostEditor({ postId, onSave, onCancel }: PostEditorProps
               <CardTitle>Post Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Status */}
-              <div className="space-y-2">
-                <Label>Status</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value: 'draft' | 'published') => 
-                    setFormData({ ...formData, status: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="published">Published</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              {/* Status (hidden on create; controlled by action buttons) */}
+              {postId && (
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value: 'draft' | 'published') =>
+                      setFormData({ ...formData, status: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="published">Published</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               {/* Excerpt */}
               <div className="space-y-2">
@@ -355,21 +361,32 @@ export default function PostEditor({ postId, onSave, onCancel }: PostEditorProps
               {/* Category Selection */}
               <div className="space-y-2">
                 <Label>Add Category</Label>
-                <Select onValueChange={handleCategoryChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories
-                      .filter(category => !selectedCategories.find(c => c.id === category.id))
-                      .map((category) => (
-                        <SelectItem key={category.id} value={category.id.toString()}>
-                          {category.name}
-                        </SelectItem>
-                      ))
-                    }
-                  </SelectContent>
-                </Select>
+                {(() => {
+                  const remaining = categories.filter(
+                    (category) => !selectedCategories.find((c) => c.id === category.id)
+                  );
+                  const noMore = remaining.length === 0;
+                  return (
+                    <Select value={categorySelectValue} onValueChange={handleCategoryChange} disabled={noMore}>
+                      <SelectTrigger>
+                        <SelectValue placeholder={noMore ? 'No more categories' : 'Add category'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {noMore ? (
+                          <SelectItem value="__none" disabled>
+                            No more categories
+                          </SelectItem>
+                        ) : (
+                          remaining.map((category) => (
+                            <SelectItem key={category.id} value={category.id.toString()}>
+                              {category.name}
+                            </SelectItem>
+                          ))
+                        )}
+                      </SelectContent>
+                    </Select>
+                  );
+                })()}
               </div>
 
               {/* Selected Categories */}
