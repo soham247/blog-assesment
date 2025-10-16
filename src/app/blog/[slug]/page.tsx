@@ -2,7 +2,6 @@
 
 import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
-import Navigation from '@/components/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -26,8 +25,6 @@ export default function BlogPostPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-3/4 mb-4"></div>
@@ -39,7 +36,6 @@ export default function BlogPostPage() {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 
@@ -50,8 +46,7 @@ export default function BlogPostPage() {
   const displayDate = post.publishedAt || post.createdAt;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <div>
       
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}

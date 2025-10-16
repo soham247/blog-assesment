@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Navigation from '@/components/navigation';
 import BlogPostCard from '@/components/blog-post-card';
 import { BlogPostCardSkeleton } from '@/components/ui/loading';
 import { Input } from '@/components/ui/input';
@@ -80,8 +79,7 @@ function BlogPageContent() {
   const selectedCategoryData = categories.find(c => c.id === categoryId);
   
   return (
-      <div className="min-h-screen bg-background">
-      <Navigation />
+      
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -269,13 +267,12 @@ function BlogPageContent() {
           </>
         )}
       </div>
-    </div>
   );
 }
 
 export default function BlogPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background"><Navigation /><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><p className="text-muted-foreground">Loading...</p></div></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-background"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><p className="text-muted-foreground">Loading...</p></div></div>}>
       <BlogPageContent />
     </Suspense>
   );
