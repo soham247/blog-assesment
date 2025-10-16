@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/navigation';
 import { BookOpen, Edit3, Database, Zap, Shield, Globe } from 'lucide-react';
 
@@ -37,17 +36,6 @@ export default function Home() {
       title: 'Responsive Design',
       description: 'Beautiful, mobile-first design that works perfectly on all devices.',
     },
-  ];
-
-  const techStack = [
-    'Next.js 15',
-    'TypeScript',
-    'tRPC',
-    'Drizzle ORM',
-    'PostgreSQL',
-    'Tailwind CSS',
-    'React Query',
-    'Zustand',
   ];
 
   return (
@@ -110,28 +98,6 @@ export default function Home() {
                   </CardDescription>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tech Stack Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Modern Tech Stack
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Built with cutting-edge technologies for optimal performance and developer experience
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            {techStack.map((tech) => (
-              <Badge key={tech} variant="secondary" className="px-4 py-2 text-sm">
-                {tech}
-              </Badge>
             ))}
           </div>
         </div>

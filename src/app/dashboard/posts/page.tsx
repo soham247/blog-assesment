@@ -35,6 +35,8 @@ import {
   Trash2, 
   Eye,
   Filter,
+  Archive,
+  Upload,
 } from 'lucide-react';
 import { formatDistance } from 'date-fns';
 import { toast } from 'sonner';
@@ -233,11 +235,11 @@ export default function PostsPage() {
                         </Button>
                       )}
                       
-                      <Button variant="ghost" size="sm" asChild>
+                      {/* <Button variant="ghost" size="sm" asChild>
                         <Link href={`/dashboard/posts/${post.id}`}>
                           <Edit className="h-4 w-4" />
                         </Link>
-                      </Button>
+                      </Button> */}
                       
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -257,12 +259,14 @@ export default function PostsPage() {
                             <DropdownMenuItem
                               onClick={() => handleStatusChange(post.id, 'draft')}
                             >
-                              Unpublish
+                              <Archive className="mr-2 h-4 w-4" />
+                              Archive
                             </DropdownMenuItem>
                           ) : (
                             <DropdownMenuItem
                               onClick={() => handleStatusChange(post.id, 'published')}
                             >
+                              <Upload className="mr-2 h-4 w-4" />
                               Publish
                             </DropdownMenuItem>
                           )}
